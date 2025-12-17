@@ -18,14 +18,6 @@ function App() {
     setShowSidebar(!showSidebar);
   };
 
-  const fetchPostsData = (fetchPosts) => {
-    fetch("https://dummyjson.com/posts")
-      .then((res) => res.json())
-      .then((data) => {
-        fetchPosts(data.posts);
-      });
-  };
-
   return (
     <PostListProvider>
       <div className="container-app">
@@ -44,11 +36,7 @@ function App() {
         <div className={`site-bound-content ${showSidebar && "expanded"}`}>
           <Header />
 
-          {selectedSidebar === "Create Post" ? (
-            <CreatePost />
-          ) : (
-            <PostsComp fetchPostsData={fetchPostsData} />
-          )}
+          {selectedSidebar === "Create Post" ? <CreatePost /> : <PostsComp />}
           <Footer />
         </div>
       </div>

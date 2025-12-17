@@ -35,15 +35,17 @@ const postListReducer = (state, action) => {
 const PostListProvider = ({ children }) => {
   const [postQueue, dispatchPostQueue] = useReducer(postListReducer, []);
 
-  const addPosts = (id, title, content, tags) => {
+  const addPosts = (id, title, body, tags, likes) => {
     const newPostsAction = {
       type: ACTIONS.ADD_POSTS,
       payload: {
         id,
         title,
-        content,
+        body,
         tags,
-        reactions: 0,
+        reactions: {
+          likes,
+        },
       },
     };
     dispatchPostQueue(newPostsAction);

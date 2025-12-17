@@ -4,7 +4,7 @@ import { useContext, useRef } from "react";
 const CreatePost = () => {
   const idRef = useRef();
   const titleRef = useRef();
-  const contentRef = useRef();
+  const bodyRef = useRef();
   const tagsRef = useRef();
 
   const { postQueue, addPosts } = useContext(PostList);
@@ -29,14 +29,14 @@ const CreatePost = () => {
 
     const id = idRef.current.value;
     const title = titleRef.current.value;
-    const content = contentRef.current.value;
+    const body = bodyRef.current.value;
     const tags = tagsRef.current.value.split(/(\s+)/);
 
-    addPosts(id, title, content, tags);
+    addPosts(id, title, body, tags, 0);
 
     idRef.current.value = "";
     titleRef.current.value = "";
-    contentRef.current.value = "";
+    bodyRef.current.value = "";
     tagsRef.current.value = "";
   };
 
@@ -70,15 +70,15 @@ const CreatePost = () => {
         />
       </div>
       <div className="mb-3">
-        <label htmlFor="content" className="form-label">
+        <label htmlFor="body" className="form-label">
           Write Something
         </label>
         <textarea
           type="text"
-          ref={contentRef}
+          ref={bodyRef}
           rows="3"
           className="form-control"
-          id="contentInput"
+          id="bodyInput"
           placeholder="How are you feeling today.."
           required
         />

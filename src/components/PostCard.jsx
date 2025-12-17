@@ -7,15 +7,15 @@ const PostCard = ({ post }) => {
   const [showOptions, setShowOptions] = useState(false);
   const [isPinned, setIsPinned] = useState(false);
 
-  const [likes, setLikes] = useState(false);
+  const [liked, setLiked] = useState(false);
 
   const handleReactions = () => {
-    if (!likes) {
-      setLikes(true);
+    if (!liked) {
+      setLiked(true);
       post.reactions.likes += 1;
     } else {
       post.reactions.likes -= 1;
-      setLikes(false);
+      setLiked(false);
     }
   };
 
@@ -74,7 +74,7 @@ const PostCard = ({ post }) => {
         <hr />
         <div className="reactions">
           <FaHeart
-            className={`like-btn ${likes ? "liked" : ""}`}
+            className={`like-btn ${liked ? "liked" : ""}`}
             onClick={() => handleReactions()}
           />
           {post.reactions.likes}

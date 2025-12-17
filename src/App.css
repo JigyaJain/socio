@@ -1,11 +1,17 @@
 .container-app{
   display: flex;
+  background-color: #20252a;
+}
+
+.header-container{
+  
+  position: sticky;
 }
 
 .site-bound-content{
   width: 100%;
   height: auto;
-  /* margin-left: 45px; */
+  margin-left: 50px;
   background-color: #899ca6;
 }
 
@@ -43,6 +49,8 @@
 
 .sidebar-container-collapsed{
   background-color: #20252a;
+  height: auto;
+  position: fixed;
 }
 .sidesection{
   cursor: pointer;
