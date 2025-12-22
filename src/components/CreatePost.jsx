@@ -2,7 +2,7 @@ import { PostList } from "../store/post-list-store.jsx";
 import { useContext, useRef } from "react";
 
 const CreatePost = () => {
-  const idRef = useRef();
+  const userIdRef = useRef();
   const titleRef = useRef();
   const bodyRef = useRef();
   const tagsRef = useRef();
@@ -13,13 +13,15 @@ const CreatePost = () => {
     if (e.key === "Enter") {
       e.preventDefault();
 
-      const entrId = idRef.current.value;
+      const entrId = userIdRef.current.value;
 
-      const checkExistingUser = postQueue.find((post) => post.id === entrId);
+      const checkExistingUser = postQueue.find(
+        (post) => post.userId === entrId
+      );
 
       if (!checkExistingUser) {
         alert("Please create a account first!");
-        idRef.current.value = "";
+        userIdRef.current.value = "";
       }
     }
   };
@@ -27,28 +29,45 @@ const CreatePost = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const id = idRef.current.value;
+    const userId = userIdRef.current.value;
     const title = titleRef.current.value;
     const body = bodyRef.current.value;
-    const tags = tagsRef.current.value.split(/(\s+)/);
+    const tags = tagsRef.current.value.trim().split(/\s+/);
+    const likes = 0;
 
-    addPosts(id, title, body, tags, 0);
-
-    idRef.current.value = "";
+    userIdRef.current.value = "";
     titleRef.current.value = "";
     bodyRef.current.value = "";
     tagsRef.current.value = "";
+
+    fetch("https://dummyjson.com/posts/add", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId,
+        title,
+        body,
+        tags,
+        reactions: {
+          likes,
+        },
+      }),
+    })
+      .then((res) => res.json())
+      .then((posts) => {
+        addPosts(posts);
+      });
   };
 
   return (
-    <form className="create-post" onSubmit={(e) => handleSubmit(e)}>
+    <form className="create-post" onSubmit={handleSubmit}>
       <div className="mb-3">
         <label htmlFor="userId" className="form-label">
           User Id
         </label>
         <input
           type="text"
-          ref={idRef}
+          ref={userIdRef}
           className="form-control"
           id="userIdInput"
           placeholder="Enter you user id"

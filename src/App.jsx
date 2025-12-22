@@ -35,8 +35,9 @@ function App() {
 
         <div className={`site-bound-content ${showSidebar && "expanded"}`}>
           <Header />
-
-          {selectedSidebar === "Create Post" ? <CreatePost /> : <PostsComp />}
+          <div className="page-content">
+            {selectedSidebar === "Create Post" ? <CreatePost /> : <PostsComp />}
+          </div>
           <Footer />
         </div>
       </div>

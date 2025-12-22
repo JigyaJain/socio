@@ -3,20 +3,25 @@
   background-color: #20252a;
 }
 
-.header-container{
-  
+.header-container{  
   position: sticky;
 }
 
 .site-bound-content{
   width: 100%;
-  height: auto;
+  min-height: 100vh;
   margin-left: 50px;
   background-color: #899ca6;
+  display: flex;
+  flex-direction: column;
 }
 
 .site-bound-content.expanded{
   margin-left: 180px;
+}
+
+.page-content{
+  flex: 1;
 }
 
 .dropdown{
@@ -49,7 +54,7 @@
 
 .sidebar-container-collapsed{
   background-color: #20252a;
-  height: auto;
+  height: 100vh;
   position: fixed;
 }
 .sidesection{
@@ -115,4 +120,8 @@
   align-items: center;
   gap: 0.5rem;
   font-size: 16px;
+}
+
+.footer-container{
+  margin: auto 50px;
 }

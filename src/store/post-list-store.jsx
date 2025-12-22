@@ -1,11 +1,11 @@
 import { createContext } from "react";
-import { useReducer } from "react";
+import { useState, useEffect, useReducer } from "react";
 
 export const PostList = createContext({
   postQueue: [],
   addPosts: () => {},
   clearPosts: () => {},
-  fetchPosts: () => {},
+  fetching: false,
 });
 
 const ACTIONS = {
@@ -15,37 +15,51 @@ const ACTIONS = {
 };
 
 const postListReducer = (state, action) => {
-  let newPosts = state;
+  let currPosts = state;
   switch (action.type) {
     case ACTIONS.ADD_POSTS:
-      return (newPosts = [action.payload, ...newPosts]);
+      return (currPosts = [action.payload.posts, ...currPosts]);
 
     case ACTIONS.CLEAR_POSTS:
-      return (newPosts = newPosts.filter(
+      return (currPosts = currPosts.filter(
         (item) => item.id !== action.payload.postId
       ));
 
     case ACTIONS.FETCH_POSTS:
-      return (newPosts = action.payload.posts);
+      return (currPosts = action.payload.posts);
 
     default:
-      return newPosts;
+      return currPosts;
   }
 };
 const PostListProvider = ({ children }) => {
   const [postQueue, dispatchPostQueue] = useReducer(postListReducer, []);
 
-  const addPosts = (id, title, body, tags, likes) => {
+  const [fetching, setFetching] = useState(false);
+
+  useEffect(() => {
+    setFetching(true);
+
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    fetch("https://dummyjson.com/posts", signal)
+      .then((res) => res.json())
+      .then((data) => {
+        fetchPosts(data.posts);
+        setFetching(false);
+      });
+
+    return () => {
+      controller.abort();
+    };
+  }, []);
+
+  const addPosts = (posts) => {
     const newPostsAction = {
       type: ACTIONS.ADD_POSTS,
       payload: {
-        id,
-        title,
-        body,
-        tags,
-        reactions: {
-          likes,
-        },
+        posts,
       },
     };
     dispatchPostQueue(newPostsAction);
@@ -74,7 +88,7 @@ const PostListProvider = ({ children }) => {
         postQueue: postQueue,
         addPosts: addPosts,
         clearPosts: clearPosts,
-        fetchPosts: fetchPosts,
+        fetching: fetching,
       }}
     >
       {children}

@@ -40,9 +40,9 @@ const PostCard = ({ post }) => {
               width="24"
               height="24"
               className="rounded-circle me-2"
-              // src={post.id}
+              // src={post.userId}
             />
-            {post.id}
+            {post.userId}
           </a>
           <SlOptionsVertical
             className="options"
@@ -67,7 +67,7 @@ const PostCard = ({ post }) => {
         <div className="card-text tags">
           {post.tags.map((item) => (
             <span key={item} className="badge text-bg-primary">
-              {item !== " " && item !== "" && item !== "\n" ? item : null}
+              {item}
             </span>
           ))}
         </div>
