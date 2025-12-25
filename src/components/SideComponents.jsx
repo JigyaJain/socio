@@ -1,7 +1,10 @@
+import { Link } from "react-router-dom";
+
 const SideComponents = ({ selectedSidebar, setSelectedSidebar }) => {
   const defaultComponents = [
     {
       name: "Home",
+      path: "/",
       icon: "home",
     },
     // {
@@ -10,6 +13,7 @@ const SideComponents = ({ selectedSidebar, setSelectedSidebar }) => {
     // },
     {
       name: "Create Post",
+      path: "/create-post",
       icon: "plus-square",
     },
   ];
@@ -25,8 +29,8 @@ const SideComponents = ({ selectedSidebar, setSelectedSidebar }) => {
             className="nav-item"
             onClick={() => setSelectedSidebar(comp.name)}
           >
-            <a
-              href="#"
+            <Link
+              to={comp.path}
               className={`nav-link text-white ${
                 selectedSidebar === comp.name && "active"
               }`}
@@ -41,7 +45,7 @@ const SideComponents = ({ selectedSidebar, setSelectedSidebar }) => {
                 <use xlinkHref={`#${comp.icon}`}></use>
               </svg>
               {comp.name}
-            </a>
+            </Link>
           </li>
         );
       })}

@@ -1,5 +1,6 @@
 import { PostList } from "../store/post-list-store.jsx";
 import { useContext, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CreatePost = () => {
   const userIdRef = useRef();
@@ -8,6 +9,7 @@ const CreatePost = () => {
   const tagsRef = useRef();
 
   const { postQueue, addPosts } = useContext(PostList);
+  const navigate = useNavigate();
 
   const handleEnterPress = (e) => {
     if (e.key === "Enter") {
@@ -56,6 +58,7 @@ const CreatePost = () => {
       .then((res) => res.json())
       .then((posts) => {
         addPosts(posts);
+        navigate("/");
       });
   };
 
